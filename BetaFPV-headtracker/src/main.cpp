@@ -37,10 +37,10 @@ SerialUSB.print("Position in deg:");
     SerialUSB.print(gyroAngleX, 3);
     SerialUSB.print("\t");
     SerialUSB.print("Y: ");
-    SerialUSB.print(GyroAngleY, 3);
+    SerialUSB.print(gyroAngleY, 3);
     SerialUSB.print("\t");
     SerialUSB.print("Z: ");
-    SerialUSB.println(GyroAngleZ, 3);
+    SerialUSB.println(gyroAngleZ, 3);
 }
 
 void setup() {
@@ -72,4 +72,9 @@ void setup() {
 void loop() {
   map_data();
   delay(20);
+  if (SerialUSB.read() == 'r') {
+    gyroAngleX = 0;
+    gyroAngleY = 0;
+    gyroAngleZ = 0;
+  }
 }
