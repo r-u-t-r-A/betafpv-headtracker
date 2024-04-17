@@ -26,11 +26,11 @@ void map_data() {
 
 void setup() {
   
-SerialUSB.begin(115200);
-SerialUSB.println("headtracker booting");
-SPI.setMISO(PA6);
-SPI.setMOSI(PA7);
-SPI.setSCLK(PA5);
+  SerialUSB.begin(115200);
+  SerialUSB.println("headtracker booting");
+  SPI.setMISO(PA6);
+  SPI.setMOSI(PA7);
+  SPI.setSCLK(PA5);
   // Initialize the SPI library
     SPI.begin();
 
