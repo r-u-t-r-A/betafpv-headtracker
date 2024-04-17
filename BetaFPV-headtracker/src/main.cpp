@@ -3,6 +3,7 @@
 #include "SparkFun_BMI270_Arduino_Library.h"
 
 #define GYRO_CS PA4
+#define GYRO_INT1 PA1
 // Create a new sensor object
 BMI270 imu;
 
