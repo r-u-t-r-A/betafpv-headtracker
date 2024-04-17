@@ -22,6 +22,7 @@ void map_data() {
     SerialUSB.print("\t");
     SerialUSB.print("Z: ");
     SerialUSB.println(imu.data.gyroZ, 3);
+    
 }
 
 void setup() {
