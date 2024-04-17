@@ -13,15 +13,15 @@ void map_data() {
     // the sensor data, otherwise it will never update
     imu.getSensorData();
   Serial.print("Rotation in deg/sec");
-    Serial.print("\t");
-    Serial.print("X: ");
-    Serial.print(imu.data.gyroX, 3);
-    Serial.print("\t");
-    Serial.print("Y: ");
-    Serial.print(imu.data.gyroY, 3);
-    Serial.print("\t");
-    Serial.print("Z: ");
-    Serial.println(imu.data.gyroZ, 3);
+    SerialUSB.print("\t");
+    SerialUSB.print("X: ");
+    SerialUSB.print(imu.data.gyroX, 3);
+    SerialUSB.print("\t");
+    SerialUSB.print("Y: ");
+    SerialUSB.print(imu.data.gyroY, 3);
+    SerialUSB.print("\t");
+    SerialUSB.print("Z: ");
+    SerialUSB.println(imu.data.gyroZ, 3);
 }
 
 void setup() {
@@ -36,14 +36,14 @@ SerialUSB.println("headtracker booting");
     while(imu.beginSPI(GYRO_CS, GYRO_CLOCK) != BMI2_OK)
     {
         // Not connected, inform user
-        Serial.println("Error: BMI270 not connected, check wiring and CS pin!");
+        SerialUSB.println("Error: BMI270 not connected, check wiring and CS pin!");
 
         // Wait a bit to see if connection is established
         delay(1000);
       return;
     }
 
-    Serial.println("BMI270 connected!");
+    SerialUSB.println("BMI270 connected!");
   
 }
 
