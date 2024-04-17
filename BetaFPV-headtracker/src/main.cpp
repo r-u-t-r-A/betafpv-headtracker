@@ -49,4 +49,5 @@ SerialUSB.println("headtracker booting");
 
 void loop() {
   map_data();
+  delay(20);
 }
