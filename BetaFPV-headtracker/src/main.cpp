@@ -9,6 +9,9 @@
 BMI270 imu;
 
 void map_data() {
+    previousTime = currentTime;        // Previous time is stored before the actual time read
+  currentTime = millis();            // Current time actual time read
+  elapsedTime = (currentTime - previousTime) / 1000; // Divide by 1000 to get seconds
   // Get measurements from the sensor. This must be called before accessing
     // the sensor data, otherwise it will never update
     imu.getSensorData();
@@ -22,7 +25,9 @@ void map_data() {
     SerialUSB.print("\t");
     SerialUSB.print("Z: ");
     SerialUSB.println(imu.data.gyroZ, 3);
-    
+    gyroAngleX = gyroAngleX + imu.data.gyroX * elapsedTime; // deg/s * s = deg
+    gyroAngleY = gyroAngleY + imu.data.gyroY * elapsedTime;
+    gyroAngleZ = gyroAngleZ + imu.data.gyroZ * elapsedTime;
 }
 
 void setup() {
