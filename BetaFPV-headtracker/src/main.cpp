@@ -12,7 +12,7 @@ void map_data() {
   // Get measurements from the sensor. This must be called before accessing
     // the sensor data, otherwise it will never update
     imu.getSensorData();
-  Serial.print("Rotation in deg/sec");
+  SerialUSB.print("Rotation in deg/sec");
     SerialUSB.print("\t");
     SerialUSB.print("X: ");
     SerialUSB.print(imu.data.gyroX, 3);
