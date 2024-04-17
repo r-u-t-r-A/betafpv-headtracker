@@ -12,6 +12,16 @@ void map_data() {
   // Get measurements from the sensor. This must be called before accessing
     // the sensor data, otherwise it will never update
     imu.getSensorData();
+  Serial.print("Rotation in deg/sec");
+    Serial.print("\t");
+    Serial.print("X: ");
+    Serial.print(imu.data.gyroX, 3);
+    Serial.print("\t");
+    Serial.print("Y: ");
+    Serial.print(imu.data.gyroY, 3);
+    Serial.print("\t");
+    Serial.print("Z: ");
+    Serial.println(imu.data.gyroZ, 3);
 }
 
 void setup() {
