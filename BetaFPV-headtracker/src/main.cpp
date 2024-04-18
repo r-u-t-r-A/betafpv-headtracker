@@ -2,6 +2,8 @@
 #include <SPI.h>
 #include "SparkFun_BMI270_Arduino_Library.h"
 
+#define debug
+
 #define GYRO_CS PA4
 #define GYRO_INT1 PA1
 #define GYRO_CLOCK 100000
@@ -36,8 +38,13 @@ void map_data() {
   imu.getSensorData();
 
   if (calibration == true) {
-    SerialUSB.println("calib start");
+  
+    #ifdef debug
+      SerialUSB.println("calib start");
+    #endif
+  
     if (i < CALIB_COUNT) {
+  
       i++;
       gyroCalibX = gyroCalibX + imu.data.gyroX;
       gyroCalibY = gyroCalibY + imu.data.gyroY;
@@ -45,37 +52,43 @@ void map_data() {
       gyroAngleX = 0;
       gyroAngleY = 0;
       gyroAngleZ = 0;
+  
     } else {
+  
       gyroCalibX = gyroCalibX / CALIB_COUNT;
       gyroCalibY = gyroCalibY / CALIB_COUNT;
       gyroCalibZ = gyroCalibZ / CALIB_COUNT;
       i = 0;
       calibration = false; 
-      SerialUSB.print("calib:");
-      SerialUSB.print("\t");
-      SerialUSB.print("X: ");
-      SerialUSB.print(gyroCalibX, 3);
-      SerialUSB.print("\t");
-      SerialUSB.print("Y: ");
-      SerialUSB.print(gyroCalibY, 3);
-      SerialUSB.print("\t");
-      SerialUSB.print("Z: ");
-      SerialUSB.println(gyroCalibZ, 3);
+  
+      #ifdef debug
+        SerialUSB.print("calib:");
+        SerialUSB.print("\t");
+        SerialUSB.print("X: ");
+        SerialUSB.print(gyroCalibX, 3);
+        SerialUSB.print("\t");
+        SerialUSB.print("Y: ");
+        SerialUSB.print(gyroCalibY, 3);
+        SerialUSB.print("\t");
+        SerialUSB.print("Z: ");
+        SerialUSB.println(gyroCalibZ, 3);
+      #endif
     }
 
   }
-
-  SerialUSB.print("Rotation in deg/sec");
-  SerialUSB.print("\t");
-  SerialUSB.print("X: ");
-  SerialUSB.print((imu.data.gyroX - gyroCalibX), 3);
-  SerialUSB.print("\t");
-  SerialUSB.print("Y: ");
-  SerialUSB.print((imu.data.gyroY - gyroCalibY), 3);
-  SerialUSB.print("\t");
-  SerialUSB.print("Z: ");
-  SerialUSB.print((imu.data.gyroZ - gyroCalibZ), 3);
-  SerialUSB.print("\t");
+  #ifdef debug
+    SerialUSB.print("Rotation in deg/sec");
+    SerialUSB.print("\t");
+    SerialUSB.print("X: ");
+    SerialUSB.print((imu.data.gyroX - gyroCalibX), 3);
+    SerialUSB.print("\t");
+    SerialUSB.print("Y: ");
+    SerialUSB.print((imu.data.gyroY - gyroCalibY), 3);
+    SerialUSB.print("\t");
+    SerialUSB.print("Z: ");
+    SerialUSB.print((imu.data.gyroZ - gyroCalibZ), 3);
+    SerialUSB.print("\t");
+  #endif
 
   gyroAngleX = gyroAngleX + (imu.data.gyroX - gyroCalibX) * elapsedTime; // deg/s * s = deg
   gyroAngleY = gyroAngleY + (imu.data.gyroY - gyroCalibY) * elapsedTime;
@@ -84,18 +97,19 @@ void map_data() {
   gyroAngleX = constrain(gyroAngleX, min_x_ang, max_x_ang);
   gyroAngleY = constrain(gyroAngleY, min_y_ang, max_y_ang);
   gyroAngleZ = constrain(gyroAngleZ, min_z_ang, max_z_ang);
-
-  SerialUSB.print("Position in deg:");
-  SerialUSB.print("\t");
-  SerialUSB.print("X: ");
-  SerialUSB.print(gyroAngleX, 3);
-  SerialUSB.print("\t");
-  SerialUSB.print("Y: ");
-  SerialUSB.print(gyroAngleY, 3);
-  SerialUSB.print("\t");
-  SerialUSB.print("Z: ");
-  SerialUSB.println(gyroAngleZ, 3);
-
+  
+  #ifdef debug
+    SerialUSB.print("Position in deg:");
+    SerialUSB.print("\t");
+    SerialUSB.print("X: ");
+    SerialUSB.print(gyroAngleX, 3);
+    SerialUSB.print("\t");
+    SerialUSB.print("Y: ");
+    SerialUSB.print(gyroAngleY, 3);
+    SerialUSB.print("\t");
+    SerialUSB.print("Z: ");
+    SerialUSB.println(gyroAngleZ, 3);
+  #endif
 }
 
 void setup() {
