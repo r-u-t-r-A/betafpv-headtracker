@@ -1,8 +1,11 @@
 #include <Arduino.h>
 #include <SPI.h>
 #include "SparkFun_BMI270_Arduino_Library.h"
+#include "crsf.c"
 
 #define debug
+
+#define ELRS_Serial Serial1
 
 #define GYRO_CS PA4
 #define GYRO_INT1 PA1
@@ -110,16 +113,24 @@ void map_data() {
     SerialUSB.print("Z: ");
     SerialUSB.println(gyroAngleZ, 3);
   #endif
+
+    rcChannels[0] = map(gyroAngleX, min_x_ang, max_x_ang, RC_CHANNEL_MIN, RC_CHANNEL_MAX);
+    rcChannels[1] = map(gyroAngleY, min_y_ang, max_y_ang, RC_CHANNEL_MIN, RC_CHANNEL_MAX);
+    rcChannels[2] = map(gyroAngleZ, min_z_ang, max_z_ang, RC_CHANNEL_MIN, RC_CHANNEL_MAX);
+
+    crsfPreparePacket(crsfPacket, rcChannels);
+    ELRS_Serial.write(crsfPacket, CRSF_PACKET_SIZE); //Send data over CRSF to tx module
 }
 
 void setup() {
   
   SerialUSB.begin(115200);
   SerialUSB.println("headtracker booting");
+  ELRS_Serial.begin(115200);
+  // Initialize the SPI library
   SPI.setMISO(PA6);
   SPI.setMOSI(PA7);
   SPI.setSCLK(PA5);
-  // Initialize the SPI library
   SPI.begin();
 
   // Check if sensor is connected and initialize
