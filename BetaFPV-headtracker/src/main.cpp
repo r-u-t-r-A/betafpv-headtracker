@@ -5,6 +5,14 @@
 #define GYRO_CS PA4
 #define GYRO_INT1 PA1
 #define GYRO_CLOCK 100000
+
+#define max_x_ang 90
+#define min_x_ang -90
+#define max_y_ang 90
+#define min_y_ang -90
+#define max_z_ang 90
+#define min_z_ang -90
+
 // Create a new sensor object
 BMI270 imu;
 
@@ -72,6 +80,10 @@ void map_data() {
   gyroAngleX = gyroAngleX + (imu.data.gyroX - gyroCalibX) * elapsedTime; // deg/s * s = deg
   gyroAngleY = gyroAngleY + (imu.data.gyroY - gyroCalibY) * elapsedTime;
   gyroAngleZ = gyroAngleZ + (imu.data.gyroZ - gyroCalibZ) * elapsedTime;
+  
+  gyroAngleX = constrain(gyroAngleX, min_x_ang, max_x_ang);
+  gyroAngleY = constrain(gyroAngleY, min_y_ang, max_y_ang);
+  gyroAngleZ = constrain(gyroAngleZ, min_z_ang, max_z_ang);
 
   SerialUSB.print("Position in deg:");
   SerialUSB.print("\t");
