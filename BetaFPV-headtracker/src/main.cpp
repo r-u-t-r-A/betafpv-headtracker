@@ -197,7 +197,7 @@ void setup() {
 
 void loop() {
   map_data();
-  delay(20);
+  delay(10);
   char read = SerialUSB.read();
   switch (read)
   {
@@ -211,7 +211,12 @@ void loop() {
   SerialUSB.println("calib");
     calibration = true;
     break;
+  case 'w':
+  SerialUSB.println("wifi");
+    buildElrsPacket(crsfCmdPacket, ELRS_LUA_COMMAND_ENABLE_WIFI, 4);
+    ELRS_Serial.write(crsfCmdPacket, CRSF_CMD_PACKET_SIZE);
+    break;
  
   }
- 
+  
 }
