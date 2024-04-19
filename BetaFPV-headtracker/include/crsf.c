@@ -217,8 +217,8 @@ void CRSF_write(uint8_t crsfPacket[], uint8_t size, int32_t add_delay)  {
   //duplex_set_TX();
 
  
-    ELRS_Serial_2400.write(crsfPacket, size);
-    ELRS_Serial_2400.flush();
+    ELRS_Serial.write(crsfPacket, size);
+    ELRS_Serial.flush();
  
   //ELRS_Serial.write(crsfPacket, size);
   //ELRS_Serial.flush();
@@ -618,13 +618,13 @@ void serialtelemetryevent_868()
 void serialtelemetryevent_2400()
 {
 
-  while ( ELRS_Serial_2400.available())
+  while ( ELRS_Serial.available())
   {
 
     if (CRSFframeActive == false)
     {
 
-      unsigned char const inChar =  ELRS_Serial_2400.read();
+      unsigned char const inChar =  ELRS_Serial.read();
       // stage 1 wait for sync byte //
       // //dbout.printf("0x%x\n",inChar);
       if (inChar == CRSF_ADDRESS_RADIO_TRANSMITTER)
@@ -652,7 +652,7 @@ void serialtelemetryevent_2400()
       // special case where we save the expected pkt len to buffer //
       if (SerialInPacketPtr == 1)
       {
-        unsigned char const inChar =  ELRS_Serial_2400.read();
+        unsigned char const inChar =  ELRS_Serial.read();
 
         if (inChar <= CRSF_MAX_PACKET_LEN)
         {
@@ -670,7 +670,7 @@ void serialtelemetryevent_2400()
       }
 
       int toRead = (SerialInPacketLen + 2) - SerialInPacketPtr;
-      int count =  ELRS_Serial_2400.readBytes(&SerialInBuffer[SerialInPacketPtr], toRead);
+      int count =  ELRS_Serial.readBytes(&SerialInBuffer[SerialInPacketPtr], toRead);
       
       SerialInPacketPtr += count;
       // //dbout.printf("count: %u\n",count);
@@ -760,7 +760,7 @@ void serialtelemetryevent_2400()
         {
           //dbout.write("UART CRC failure\n");
           // cleanup input buffer
-           ELRS_Serial_2400.flush();
+           ELRS_Serial.flush();
           // BadPktsCount++;
         }
         CRSFframeActive = false;

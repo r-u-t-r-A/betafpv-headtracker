@@ -5,7 +5,7 @@
 
 #define debug
 
-//#define ELRS_Serial_2400 Serial1
+//#define ELRS_Serial Serial1
 HardwareSerial Serial1(USART1);
 #define GYRO_CS PA4
 #define GYRO_INT1 PA1
@@ -119,14 +119,14 @@ void map_data() {
     rcChannels[2] = map(gyroAngleZ, min_z_ang, max_z_ang, RC_CHANNEL_MIN, RC_CHANNEL_MAX);
 
     crsfPreparePacket(crsfPacket, rcChannels);
-    ELRS_Serial_2400.write(crsfPacket, CRSF_PACKET_SIZE); //Send data over CRSF to tx module
+    ELRS_Serial.write(crsfPacket, CRSF_PACKET_SIZE); //Send data over CRSF to tx module
 }
 
 void setup() {
   
   SerialUSB.begin(115200);
   SerialUSB.println("headtracker booting");
-  ELRS_Serial_2400.begin(115200);
+  ELRS_Serial.begin(115200);
   // Initialize the SPI library
   SPI.setMISO(PA6);
   SPI.setMOSI(PA7);
