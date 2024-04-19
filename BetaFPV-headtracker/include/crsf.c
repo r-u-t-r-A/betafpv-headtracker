@@ -216,13 +216,10 @@ void sync_crsf(int32_t add_delay)
 void CRSF_write(uint8_t crsfPacket[], uint8_t size, int32_t add_delay)  {
   //duplex_set_TX();
 
-  if (control_protocol == 1) {
-    ELRS_Serial_868.write(crsfPacket, size);
-    ELRS_Serial_868.flush();
-  } else if (control_protocol == 2) {
+ 
     ELRS_Serial_2400.write(crsfPacket, size);
     ELRS_Serial_2400.flush();
-  }
+ 
   //ELRS_Serial.write(crsfPacket, size);
   //ELRS_Serial.flush();
   // if (add_delay>0)
@@ -460,7 +457,7 @@ uint8_t getCrossfireTelemetryValue(uint8_t index, int32_t *value, uint8_t len)
 }
 
 
-
+/*
 void serialtelemetryevent_868()
 {
 
@@ -617,7 +614,7 @@ void serialtelemetryevent_868()
     }
   }
 }
-
+*/
 void serialtelemetryevent_2400()
 {
 
