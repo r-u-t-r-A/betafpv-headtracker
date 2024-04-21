@@ -9,14 +9,15 @@
 HardwareSerial Serial1(USART1);
 #define GYRO_CS PA4
 #define GYRO_INT1 PA1
+#define button PA2
 #define GYRO_CLOCK 100000
 
-#define max_x_ang 90
-#define min_x_ang -90
-#define max_y_ang 90
-#define min_y_ang -90
-#define max_z_ang 90
-#define min_z_ang -90
+#define max_x_ang 45
+#define min_x_ang -45
+#define max_y_ang 45
+#define min_y_ang -45
+#define max_z_ang 45
+#define min_z_ang -45
 #define control_protocol 2
 // Create a new sensor object
 BMI270 imu;
@@ -25,7 +26,9 @@ BMI270 imu;
 
 bool calibration = false;
 
-float gyroCalibX, gyroCalibY, gyroCalibZ;
+float gyroCalibX = 0.274;
+float gyroCalibY = 0.383;
+float gyroCalibZ = -0.462;
 
 float gyroAngleX, gyroAngleY, gyroAngleZ;
 float elapsedTime, currentTime, previousTime;
@@ -132,6 +135,7 @@ void setup() {
   SPI.setMOSI(PA7);
   SPI.setSCLK(PA5);
   SPI.begin();
+  pinMode(button, INPUT_PULLUP);
 
   // Check if sensor is connected and initialize
   // Clock frequency is optional (defaults to 100kHz)
@@ -218,5 +222,11 @@ void loop() {
     break;
  
   }
+  if (digitalRead(button) == LOW) {
+    SerialUSB.println("reset");
+     gyroAngleX = 0;
+    gyroAngleY = 0;
+    gyroAngleZ = 0;
+  } 
   
 }
